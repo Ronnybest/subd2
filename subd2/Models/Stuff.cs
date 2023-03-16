@@ -45,4 +45,7 @@ public partial class Stuff
 
     [InverseProperty("EmployeeNavigation")]
     public virtual ICollection<SellProduct> SellProducts { get; } = new List<SellProduct>();
+
+    [InverseProperty("EmployeeNavigation")]
+    public virtual ICollection<Payments> Payments { get;} = new List<Payments>();
 }

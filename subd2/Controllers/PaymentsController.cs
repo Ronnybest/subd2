@@ -22,7 +22,8 @@ namespace subd2.Controllers
         // GET: Payments
         public async Task<IActionResult> Index()
         {
-              return _context.Payments != null ? View(await _context.Payments.ToListAsync()) : Problem("Entity set 'Lab610Context.Payments'  is null.");
+            var lab610Context = _context.Payments.Include(b => b.EmployeeNavigation).Include(b => b.MonthNavigation);
+            return View(await lab610Context.ToListAsync());
         }
 
         // GET: Payments/Details/5

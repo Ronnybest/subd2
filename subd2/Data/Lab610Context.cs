@@ -43,6 +43,8 @@ public partial class Lab610Context : DbContext
     public virtual DbSet<Unit> Units { get; set; }
 
     public virtual DbSet<Recipe> Recipe { get; set; }
+
+    public virtual DbSet<Payments> Payments { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source = DESKTOP-EJJDO3D\\SQLEXPRESS; initial catalog =lab6-10; trusted_connection = yes;TrustServerCertificate=true;");
@@ -121,10 +123,15 @@ public partial class Lab610Context : DbContext
             entity.HasOne(d => d.JobTitleNavigation).WithMany(p => p.Stuffs).HasConstraintName("FK_Stuff_JobsTitles");
         });
 
+        modelBuilder.Entity<Payments>(entity => {
+            entity.HasOne(d => d.EmployeeNavigation).WithMany(p => p.Payments).HasConstraintName("FK_Payments_Stuffs");
+            entity.HasOne(d => d.MonthNavigation).WithMany(p => p.Payments).HasConstraintName("FK_Payments_Month");
+        });
+
         OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-    public DbSet<subd2.Models.Payments>? Payments { get; set; }
+
 }
