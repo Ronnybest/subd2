@@ -1,0 +1,75 @@
+﻿@model IEnumerable<subd2.Models.Recipe>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<div>
+    @if(Model.FirstOrDefault() == null)
+    {
+        <h1>Recipe for @(ViewBag.Name)</h1>
+    }
+    else
+    {
+        <h1>Recipe for @(Model.FirstOrDefault().Name)</h1>
+    }
+
+</div>
+
+<p>
+    @if(Model.FirstOrDefault() == null)
+    {
+        <a asp-controller="Recipes" asp-action="Create" asp-route-id="@(ViewBag.ProductId)">Add new raw material into recipe</a>
+
+    }
+    else
+    {
+        <a asp-controller="Recipes" asp-action="Create" asp-route-id="@(Model.FirstOrDefault().ProductId)">Add new raw material into recipe</a>
+    }
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RawMaterial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unit)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (@Model.FirstOrDefault() != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RawMaterial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Count)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Unit)
+                    </td>
+                    <td>
+                        <a asp-controller="Recipes" asp-action="Edit" asp-route-id="@item.ProductId" asp-route-idRawMat="@item.RawMatId">Edit</a> |
+                        <a asp-controller="Recipes" asp-action="Details" asp-route-id="@item.ProductId" asp-route-idRawMat="@item.RawMatId">Details</a> |
+                        <a asp-controller="Recipes" asp-action="Delete" asp-route-id="@item.ProductId" asp-route-RawMaterials="@item.RawMatId">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+<p>
+    <a asp-controller="FinishedProducts" asp-action="Index">Return back</a>
+</p>

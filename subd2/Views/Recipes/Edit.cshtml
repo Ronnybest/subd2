@@ -1,0 +1,58 @@
+﻿@model subd2.Models.Ingredient
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Recipe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-route-RawMaterial="@Model.RawMaterials" onsubmit="return validateForm()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="NameProduction" class="control-label"></label>
+                <input asp-for="NameProduction" class="form-control" />
+                <span asp-validation-for="NameProduction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RawMaterials" class="control-label"></label>
+                <select asp-for="RawMaterials" class="form-control" asp-items="ViewBag.RawMatNames"></select>
+                <span asp-validation-for="RawMaterials" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Count" class="control-label"></label>
+                <input asp-for="Count" class="form-control" />
+                <span asp-validation-for="Count" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+            <input type="hidden" asp-for="Id" />
+            @*<input type="hidden" asp-for="RawMaterials" />*@
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-id="@Model?.NameProduction">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        function validateForm() {
+            var count = parseFloat(document.forms[0]["Count"].value);
+            var sum = parseFloat(document.forms[0]["Sum"].value);
+
+            if (count < 0 || sum < 0) {
+                alert("The Count and Sum fields must be greater than or equal to 0.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

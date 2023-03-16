@@ -1,0 +1,74 @@
+﻿@model subd2.Models.BuyRawMaterial
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Buy raw materials</h1>
+<h3 id="budget" style="border: 1px solid blue; display: inline-block; padding: 10px; border-radius: 20px;">Budget: @(ViewBag.Budget.Substring(0, ViewBag.Budget.Length - 3))</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" onsubmit=" return multiply()" name="createForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RawMaterials" class="control-label"></label>
+                <select asp-for="RawMaterials" class ="form-control" asp-items="ViewBag.RawMaterials"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Count" class="control-label"></label>
+                <input asp-for="Count" class="form-control" id="count" type="number"/>
+                <span asp-validation-for="Count" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Cost one</label>
+                <input class="form-control" id="costOne" type="number"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="Summ" style="display: none" class="control-label"></label>
+                <input asp-for="Summ" style="display: none" class="form-control" id="result" type="number" />
+                <span asp-validation-for="Summ" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input type="datetime-local" asp-for="Date" class="form-control" value="@ViewBag.Date.ToString("yyyy-MM-ddTHH:mm")" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee" class="control-label"></label>
+                <select asp-for="Employee" class ="form-control" asp-items="ViewBag.Employee"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Buy" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        function multiply() {
+            var input1 = document.getElementById("count").value;
+            var input2 = document.getElementById("costOne").value;
+            var budget = '@ViewBag.Budget'.toString();
+            if(input1 < 0 || input2 < 0) {
+                alert("Count and Cost must not be negative");
+                return false;
+            }
+
+            var result = input1 * input2;
+            if (budget < result){
+                alert("Not enough money to buy");
+                return false;
+            }
+            document.getElementById("result").value = result;
+            return true;
+        }
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,79 @@
+﻿@model subd2.Models.SellProduct
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Sell products</h1>
+
+<h4>SellProduct</h4>
+<hr />
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-danger" id="msg">@TempData["Message"]</div>
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" onsubmit=" return multiply()" name="createForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Product" class="control-label"></label>
+                <select asp-for="Product" class ="form-control" asp-items="ViewBag.Product"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Count" class="control-label"></label>
+                <input asp-for="Count" class="form-control" id="count" type="number" />
+                <span asp-validation-for="Count" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label style="display: none">Cost one</label>
+                <input class="form-control" style="display: none" id="costOne" type="number" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Summ" style="display: none" class="control-label"></label>
+                <input asp-for="Summ" style="display: none" class="form-control" id="result" type="number" />
+                <span asp-validation-for="Summ" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label style="display: none">Percentage margin</label>
+                <input class="form-control" style="display: none" id="percent" type="number" name="percent" value="@ViewBag.Percent" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input type="datetime-local" asp-for="Date" class="form-control" value="@ViewBag.Date.ToString("yyyy-MM-ddTHH:mm")" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee" class="control-label"></label>
+                <select asp-for="Employee" class ="form-control" asp-items="ViewBag.Employee"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Sell" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+      // Get the div element
+      var myDiv = document.getElementById("msg");
+
+      // Hide the div element after 5 seconds (5000 milliseconds)
+      setTimeout(function() {
+        myDiv.style.display = "none";
+      }, 3000);
+        function multiply() {
+            //var input1 = document.getElementById("count").value;
+            //var input2 = document.getElementById("costOne").value;
+            //var result = input1 * input2;
+            //document.getElementById("result").value = result;
+            return true;
+        }
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
