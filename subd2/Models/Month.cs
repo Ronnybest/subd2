@@ -12,5 +12,8 @@ namespace subd2.Models
         public string? Months { get; set; }
         [InverseProperty("MonthNavigation")]
         public virtual ICollection<Payments> Payments { get; } = new List<Payments>();
+        [InverseProperty("MonthNavigationGP")]
+        public virtual ICollection<GivePay> GivePay { get; } = new List<GivePay>();
+
     }
 }
